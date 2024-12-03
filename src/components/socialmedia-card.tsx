@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,7 +10,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-// Props type for the CardWithForm component
 interface SocialMediaCardWithFormProps {
   platform: string; // Platform name (e.g., "instagram", "twitter", etc.)
   Icon: React.FC<React.SVGProps<SVGSVGElement>>; // Icon component type
@@ -17,6 +17,13 @@ interface SocialMediaCardWithFormProps {
 }
 
 export function SocialMediaCardWithForm({ platform, Icon, title }: SocialMediaCardWithFormProps) {
+  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  // Check if all fields are filled
+  const isFormValid = name && username && password;
+
   return (
     <Card className="w-[350px]">
       <CardHeader className="flex flex-col items-center space-y-2">
@@ -29,7 +36,12 @@ export function SocialMediaCardWithForm({ platform, Icon, title }: SocialMediaCa
             {/* Name Input Field */}
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">Name</Label>
-              <Input id="name" placeholder="Enter name of Suspect/Accused" />
+              <Input
+                id="name"
+                placeholder="Enter name of Suspect/Accused"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
             </div>
             {/* Username Input Field */}
             <div className="flex flex-col space-y-1.5">
@@ -37,6 +49,8 @@ export function SocialMediaCardWithForm({ platform, Icon, title }: SocialMediaCa
               <Input
                 id={`${platform}-username`}
                 placeholder="Enter Username/E-mail"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
               />
             </div>
             {/* Password Input Field */}
@@ -46,13 +60,15 @@ export function SocialMediaCardWithForm({ platform, Icon, title }: SocialMediaCa
                 id={`${platform}-password`}
                 type="password"
                 placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
           </div>
         </form>
       </CardContent>
       <CardFooter className="flex justify-center">
-        <Button variant="outline">Extract</Button>
+        <Button disabled={!isFormValid}>Extract</Button>
       </CardFooter>
     </Card>
   );

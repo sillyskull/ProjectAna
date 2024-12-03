@@ -8,6 +8,11 @@ import { SocialMediaCardWithForm } from '../components/socialmedia-card'
 // import { LoginCardWithForm } from '@/components/login-form';
 // import{ CardWithDataImportForm } from '@/components/data-import-form';
 import { DataTableDemo } from "@/components/data-table";
+import {FormToAnalyze} from '@/components/form-analyze'
+import{ CardWithDataImportForm } from '@/components/data-import-form'
+import { FormToGenerateReport } from '@/components/form-generate-report';
+import {LoginCardWithForm} from '@/components/login-form'
+
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -16,6 +21,7 @@ createRoot(document.getElementById('root')!).render(
       <SidebarTrigger />
       <main className="flex items-center justify-center content-center h-screen">
       {/* <CardWithDataImportForm /> */}
+      <LoginCardWithForm/> 
       {/* <div className="flex gap-4 content-center justify-center">
       <SocialMediaCardWithForm platform="instagram" Icon={Instagram} title="Instagram" />
       <SocialMediaCardWithForm platform="twitter" Icon={Twitter} title="Twitter" />
@@ -23,6 +29,9 @@ createRoot(document.getElementById('root')!).render(
       </div> */}
       <DataTableDemo/>      
       {/* <LoginCardWithForm /> */}
+      {/* <CardWithDataImportForm /> */}
+      {/* <FormToGenerateReport caseNumber={5666} platforms={["Facebook","Telegram", "Instagram", "Twitter"]} /> */}
+      {/* <FormToAnalyze caseNumber={5666} platforms={["Facebook","Telegram", "Instagram", "Twitter"]} /> */}
       </main>
     </SidebarProvider>
   </StrictMode>,
