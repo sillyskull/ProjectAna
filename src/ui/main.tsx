@@ -1,38 +1,29 @@
-import {  StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import './index.css';
-import { Instagram, Twitter, Facebook } from "lucide-react";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from '@/components/app-sidebar.tsx';
-import { SocialMediaCardWithForm } from '../components/socialmedia-card'
-// import { LoginCardWithForm } from '@/components/login-form';
-// import{ CardWithDataImportForm } from '@/components/data-import-form';
-import { DataTableDemo } from "@/components/data-table";
-import {FormToAnalyze} from '@/components/form-analyze'
-import{ CardWithDataImportForm } from '@/components/data-import-form'
-import { FormToGenerateReport } from '@/components/form-generate-report';
-import {LoginCardWithForm} from '@/components/login-form'
+import React from "react";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client"; // Correct module
+import "./index.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { LoginCardWithForm } from "@/components/login-form";
+import { CaseDataTable } from "@/components/case-data-table";
+import { DataFileTable } from "@/components/data-files-table";
 
+const container = document.getElementById("root");
+if (!container) {
+  throw new Error("Root container not found. Ensure there is an element with id 'root' in your HTML.");
+}
 
-createRoot(document.getElementById('root')!).render(
+const root = createRoot(container);
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <LoginCardWithForm />,
+  },
+]);
+
+// Rendering the app
+root.render(
   <StrictMode>
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarTrigger />
-      <main className="flex items-center justify-center content-center h-screen">
-      {/* <CardWithDataImportForm /> */}
-      <LoginCardWithForm/> 
-      {/* <div className="flex gap-4 content-center justify-center">
-      <SocialMediaCardWithForm platform="instagram" Icon={Instagram} title="Instagram" />
-      <SocialMediaCardWithForm platform="twitter" Icon={Twitter} title="Twitter" />
-      <SocialMediaCardWithForm platform="facebook" Icon={Facebook} title="Facebook" />
-      </div> */}
-      <DataTableDemo/>      
-      {/* <LoginCardWithForm /> */}
-      {/* <CardWithDataImportForm /> */}
-      {/* <FormToGenerateReport caseNumber={5666} platforms={["Facebook","Telegram", "Instagram", "Twitter"]} /> */}
-      {/* <FormToAnalyze caseNumber={5666} platforms={["Facebook","Telegram", "Instagram", "Twitter"]} /> */}
-      </main>
-    </SidebarProvider>
-  </StrictMode>,
-)
+    <RouterProvider router={router} />
+  </StrictMode>
+);

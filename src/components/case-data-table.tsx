@@ -13,10 +13,9 @@ import {
     getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
+import { ChevronDown, MoreHorizontal } from "lucide-react"
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 
 import {
@@ -81,33 +80,12 @@ const data: Case[] = [
 export type Case = {
     case_id: number;
     accused: string;
-    sources: string[]; // List of social media sources
+    sources: string[]; 
+    
     analysis_status: "Not Analysed" | "Analysed" | "In progress";
 };
 
 export const columns: ColumnDef<Case>[] = [
-    {
-        id: "select",
-        header: ({ table }) => (
-            <Checkbox
-                checked={
-                    table.getIsAllPageRowsSelected() ||
-                    (table.getIsSomePageRowsSelected() && "indeterminate")
-                }
-                onCheckedChange={(value: any) => table.toggleAllPageRowsSelected(!!value)}
-                aria-label="Select all"
-            />
-        ),
-        cell: ({ row }) => (
-            <Checkbox
-                checked={row.getIsSelected()}
-                onCheckedChange={(value: any) => row.toggleSelected(!!value)}
-                aria-label="Select row"
-            />
-        ),
-        enableSorting: false,
-        enableHiding: false,
-    },
     {
         accessorKey: "case_id",
         header: "Case ID",
@@ -138,7 +116,7 @@ export const columns: ColumnDef<Case>[] = [
         accessorKey: "analysis_status",
         header: "Analysis Status",
         cell: ({ row }) => {
-            const status = row.getValue("analysis_status");
+            const status = row.getValue("analysis_status") as string;
             const statusColor =
                 status === "Not Analysed"
                     ? "notanalysed"
@@ -146,11 +124,7 @@ export const columns: ColumnDef<Case>[] = [
                         ? "inprogress"
                         : "analysed";
 
-            return (
-                <Badge variant={statusColor}>
-                    {status}
-                </Badge>
-            );
+            return <Badge variant={statusColor}>{status}</Badge>;
         },
     },
     {
@@ -160,32 +134,50 @@ export const columns: ColumnDef<Case>[] = [
             const caseData = row.original;
 
             return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem
-                            onClick={() => navigator.clipboard.writeText(caseData.case_id.toString())}
-                        >
-                            Copy Case ID
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem>View Case Details</DropdownMenuItem>
-                        <DropdownMenuItem>Analyze</DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                <div className="flex gap-2">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="h-8 w-8 p-0">
+                                <span className="sr-only">Open menu</span>
+                                <MoreHorizontal />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            <DropdownMenuItem
+                                onClick={() =>
+                                    navigator.clipboard.writeText(caseData.case_id.toString())
+                                }
+                            >
+                                Copy Case ID
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem>View Case Details</DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                    {/* New Analyze Button */}
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleAnalyze(caseData)}
+                    >
+                        Analyze
+                    </Button>
+                </div>
             );
         },
     },
 ];
 
+// Callback Function for Analyze Button
+const handleAnalyze = (caseData: Case) => {
+    console.log("Analyzing case:", caseData);
+    // Add your analysis logic here
+};
 
-export function DataTableDemo() {
+
+
+export function CaseDataTable() {
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         []
@@ -217,10 +209,10 @@ export function DataTableDemo() {
         <div className="w-full">
             <div className="flex items-center py-4">
                 <Input
-                    placeholder="Filter emails..."
-                    value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+                    placeholder="Filter name..."
+                    value={(table.getColumn("accused")?.getFilterValue() as string) ?? ""}
                     onChange={(event) =>
-                        table.getColumn("email")?.setFilterValue(event.target.value)
+                        table.getColumn("accused")?.setFilterValue(event.target.value)
                     }
                     className="max-w-sm"
                 />
@@ -300,30 +292,6 @@ export function DataTableDemo() {
                         )}
                     </TableBody>
                 </Table>
-            </div>
-            <div className="flex items-center justify-end space-x-2 py-4">
-                <div className="flex-1 text-sm text-muted-foreground">
-                    {table.getFilteredSelectedRowModel().rows.length} of{" "}
-                    {table.getFilteredRowModel().rows.length} row(s) selected.
-                </div>
-                <div className="space-x-2">
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => table.previousPage()}
-                        disabled={!table.getCanPreviousPage()}
-                    >
-                        Previous
-                    </Button>
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => table.nextPage()}
-                        disabled={!table.getCanNextPage()}
-                    >
-                        Next
-                    </Button>
-                </div>
             </div>
         </div>
     )
