@@ -6,8 +6,9 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from '@/components/app-sidebar.tsx';
 import { SocialMediaCardWithForm } from '../components/socialmedia-card'
 // import { LoginCardWithForm } from '@/components/login-form';
-import {DataTable} from "../components/data-table.tsx";
-// import{ CardWithDataImportForm } from '@/components/data-import-form'
+// import{ CardWithDataImportForm } from '@/components/data-import-form';
+import { DataTableDemo } from "@/components/data-table";
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <SidebarProvider>
@@ -15,12 +16,12 @@ createRoot(document.getElementById('root')!).render(
       <SidebarTrigger />
       <main className="flex items-center justify-center content-center h-screen">
       {/* <CardWithDataImportForm /> */}
-      <div className="flex gap-4 content-center justify-center">
+      {/* <div className="flex gap-4 content-center justify-center">
       <SocialMediaCardWithForm platform="instagram" Icon={Instagram} title="Instagram" />
       <SocialMediaCardWithForm platform="twitter" Icon={Twitter} title="Twitter" />
       <SocialMediaCardWithForm platform="facebook" Icon={Facebook} title="Facebook" />
-      </div>
-      
+      </div> */}
+      <DataTableDemo/>      
       {/* <LoginCardWithForm /> */}
       </main>
     </SidebarProvider>
