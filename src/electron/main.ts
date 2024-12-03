@@ -8,8 +8,11 @@ app.on('ready', () =>{
     const mainWindow = new BrowserWindow({
         webPreferences:{
             preload: getPreloadPath(),
+            
         }
     });
+    
+    mainWindow.menuBarVisible = false;
 
     if(isDev()){
         mainWindow.loadURL("http://localhost:5123");
