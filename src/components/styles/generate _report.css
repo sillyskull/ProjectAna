@@ -1,0 +1,31 @@
+/* Customize the radio buttons */
+.radio-input {
+    appearance: none;
+    -webkit-appearance: none;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    width: 16px;
+    height: 16px;
+    background-color: white;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  
+  .radio-input:checked {
+    background-color: black;
+    border-color: black;
+  }
+  
+  .radio-input:checked::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 8px;
+    height: 8px;
+    background-color: white;
+    border-radius: 50%;
+  }
+  
